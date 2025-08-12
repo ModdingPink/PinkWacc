@@ -62,7 +62,7 @@ public class HandFollowManager : MonoBehaviour
 
     private void PhysicsMove(Transform targetTransform)
     {
-        currentRigidbody.velocity = (targetTransform.position - transform.position) / Time.fixedDeltaTime;
+        currentRigidbody.linearVelocity = (targetTransform.position - transform.position) / Time.fixedDeltaTime;
         
         Quaternion rotationDelta = targetTransform.rotation * Quaternion.Inverse(transform.rotation);
         rotationDelta.ToAngleAxis(out float angle, out Vector3 axis);

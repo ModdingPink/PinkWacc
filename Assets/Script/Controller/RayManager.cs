@@ -1,20 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+
 
 public class RayManager : MonoBehaviour
 {
     public bool RaySwitch = true;
     public Transform CabinetTransform;
     public float Distance = 0.5f;
-    XRRayInteractor interactor;
-    XRInteractorLineVisual lineVisual;
+    UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor interactor;
+    UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals.XRInteractorLineVisual lineVisual;
     LineRenderer lineRenderer;
     void Start()
     {
-        interactor = GetComponent<XRRayInteractor>();
-        lineVisual = GetComponent<XRInteractorLineVisual>();
+        interactor = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor>();
+        lineVisual = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals.XRInteractorLineVisual>();
         lineRenderer = lineVisual.GetComponent<LineRenderer>();
     }
 

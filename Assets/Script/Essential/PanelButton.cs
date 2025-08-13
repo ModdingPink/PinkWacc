@@ -58,6 +58,12 @@ public class PanelButton : MonoBehaviour
         }
     }
 
+    public void SimulateButtonPress()
+    {
+        ButtonPress();
+        Invoke("ButtonRelease", 2);
+    }
+
     private void ButtonPress()
     {
         ButtonPressed?.Invoke();

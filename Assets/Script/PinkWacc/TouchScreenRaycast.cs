@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class TouchScreenRaycast : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class TouchScreenRaycast : MonoBehaviour
     [SerializeField] Camera mainCamera;
     [SerializeField] LightManager LightManager;
 
+    [SerializeField] float circleSize = 1;
 
     List<int> pressedLastFrame = new List<int>();
     List<int> pressedThisFrame = new List<int>();
@@ -21,17 +23,18 @@ public class TouchScreenRaycast : MonoBehaviour
         pressedLastFrame.AddRange(pressedThisFrame);
         pressedThisFrame.Clear();
         int count = Input.touchCount;
+
         if (count > 0)
         {
             for (int i = 0; i < count; i++)
             {
                 Touch t = Input.GetTouch(i);
-                DoRaycast(t.position);
+                CircleRaycast(t.position);
             }
         }
         if (Input.GetMouseButton(0))
         {
-            DoRaycast(Input.mousePosition);
+            CircleRaycast(Input.mousePosition);
         }
 
         foreach(int i in pressedThisFrame)
@@ -50,13 +53,24 @@ public class TouchScreenRaycast : MonoBehaviour
 
     }
 
+    private void CircleRaycast(Vector2 screenPos)
+    {
+        float displayScale = Display.main.renderingHeight;
+        float newScale = displayScale/circleSize;
+        DoRaycast(screenPos + (Vector2.left * newScale));
+        DoRaycast(screenPos + (Vector2.up * newScale));
+        DoRaycast(screenPos + (Vector2.down * newScale));
+        DoRaycast(screenPos + (Vector2.right * newScale));
+        DoRaycast(screenPos);
+    }
+
+
     private void DoRaycast(Vector2 screenPos)
     {
         Ray ray = mainCamera.ScreenPointToRay(screenPos);
         if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, hitMask, QueryTriggerInteraction.Collide))
         {
-
-            Debug.Log($"Hit {hit.collider.name} at {hit.point}");
+            //Debug.Log($"Hit {hit.collider.name} at {hit.point}");
             try
             {
                 var Area = Convert.ToInt32(hit.collider.name);
